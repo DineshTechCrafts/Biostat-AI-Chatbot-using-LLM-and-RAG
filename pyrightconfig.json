@@ -1,0 +1,10 @@
+{
+  "venvPath": ".",
+  "venv": ".venv",
+  "pythonVersion": "3.10",
+  "typeCheckingMode": "basic",
+  "include": ["."],
+  "extraPaths": [
+    "C:/Users/DINESH/AppData/Local/Programs/Python/Python310/Lib/site-packages"
+  ]
+}

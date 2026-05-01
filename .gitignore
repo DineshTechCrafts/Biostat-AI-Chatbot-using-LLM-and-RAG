@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.pyc
+
+chroma_db/
+
+# Local data files (keep folder, ignore heavy PDF contents)
+PDF Dataset/*.pdf
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+
+frontend/node_modules/
+frontend/build/
