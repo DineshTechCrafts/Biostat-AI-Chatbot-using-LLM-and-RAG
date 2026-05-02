@@ -11,6 +11,3 @@ PDF Dataset/*.pdf
 .DS_Store
 Thumbs.db
 desktop.ini
-
-frontend/node_modules/
-frontend/build/

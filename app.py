@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, render_template, request
 from flask_cors import CORS
 
 from rag.config import CHROMA_COLLECTION, CHROMA_DIR, OLLAMA_HOST
@@ -6,8 +6,14 @@ from rag.ollama_client import Ollama
 from rag.qa import answer_question, simple_sources
 from rag.vectorstore import VectorStore
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static", template_folder="templates")
 CORS(app)
+
+
+@app.route("/")
+def index():
+    return render_template("index.html")
+
 
 # Initialise once at startup
 ollama = Ollama(host=OLLAMA_HOST)

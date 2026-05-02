@@ -9,7 +9,7 @@ BIO stat AI is a local Retrieval-Augmented Generation (RAG) assistant for medica
 - Semantic retrieval using embeddings + Chroma vector database
 - Structured educational responses (Concept, Explanation, Key Points, Example, Final Summary)
 - Transparent source display with page number
-- CLI chat and ChatGPT-style React web UI
+- CLI chat and a ChatGPT-style **vanilla HTML/CSS/JS** web UI (no Node/npm)
 
 ## Tech Stack
 
@@ -17,8 +17,7 @@ BIO stat AI is a local Retrieval-Augmented Generation (RAG) assistant for medica
 - Ollama (`llama3.2:latest` for answering, `nomic-embed-text` for embeddings by default)
 - ChromaDB (persistent vector store)
 - `pdfplumber` with `PyPDF2` fallback for extraction
-- Flask API backend
-- React frontend (ChatGPT-like chat UI)
+- Flask (serves the web UI + JSON API)
 
 ## Project Structure
 
@@ -34,10 +33,13 @@ ChatBot/
 │  ├─ vectorstore.py         # Chroma operations
 │  ├─ ingest.py              # Ingestion pipeline
 │  └─ qa.py                  # Retrieval + prompt orchestration
+├─ templates/                # index.html for Flask
+├─ static/
+│  ├─ css/style.css          # UI styles (white theme)
+│  └─ js/app.js              # Chat logic (fetch /api/chat)
 ├─ ingest.py                 # Ingestion entrypoint
 ├─ chat.py                   # CLI chatbot
-├─ app.py                    # Flask API server
-├─ frontend/                 # React web client (HTML/CSS/JS via React)
+├─ app.py                    # Flask: pages + JSON API
 └─ requirements.txt
 ```
 
@@ -50,15 +52,15 @@ flowchart TD
     C --> D[Embedding Generation<br/>Ollama embedding model]
     D --> E[(Chroma Vector DB<br/>documents + embeddings + metadata)]
 
-    F[React Frontend<br/>localhost:3000] --> API[Flask API<br/>/api/chat]
-    U[User Question<br/>CLI] --> Q[Query Embedding<br/>Ollama embeddings]
+    BROWSER[Browser UI<br/>templates + static<br/>localhost:5000] --> API[Flask<br/>HTML + JSON /api/chat]
+    U[User Question<br/>CLI chat.py] --> Q[Query Embedding<br/>Ollama embeddings]
     API --> Q
     Q --> R[Similarity Search<br/>Top-K retrieval from Chroma]
     R --> P[Prompt Builder<br/>strict structured teaching format]
     P --> L[LLM Answer Generation<br/>llama3.2:latest]
     L --> O[Structured Response + Simple Source Citation<br/>includes page number]
     O --> API
-    API --> F
+    API --> BROWSER
 
     E --> R
 ```
@@ -87,59 +89,44 @@ python ingest.py
 4. Generate answer with `llama3.2:latest`
 5. Show concise source citation with page number
 
-CLI:
+**CLI:**
 
 ```bash
 python chat.py
 ```
 
-Flask API server:
+**Web app (recommended):**
 
 ```bash
 python app.py
 ```
 
-React frontend:
+Open **http://localhost:5000** in your browser.
 
-```bash
-cd frontend
-npm install
-npm start
-```
+Health check JSON: **http://localhost:5000/api/health**
 
 ## Setup
 
 ```bash
 python -m venv .venv
-.venv\Scripts\python -m pip install -r requirements.txt
+.venv\Scripts\activate
+pip install --upgrade pip
+pip install -r requirements.txt
 ```
 
-Install frontend dependencies:
-
-```bash
-cd frontend
-npm install
-```
+No `npm install` or `node_modules` is required for the UI.
 
 ## Run (Recommended)
 
-Terminal 1 (backend API):
+Terminal 1 — start Flask (serves HTML + `/api/chat`):
 
 ```bash
 python app.py
 ```
 
-Terminal 2 (frontend UI):
+Then open `http://localhost:5000`.
 
-```bash
-cd frontend
-npm start
-```
-
-Open:
-
-- Frontend: `http://localhost:3000`
-- Backend health check: `http://localhost:5000/api/health`
+(If your vector DB is empty, run `python ingest.py` first.)
 
 ## Configuration
 
@@ -164,4 +151,3 @@ Environment variables:
 ## Repository
 
 GitHub: [DineshTechCrafts/Biostat-AI-Chatbot-using-LLM-and-RAG](https://github.com/DineshTechCrafts/Biostat-AI-Chatbot-using-LLM-and-RAG.git)
-

@@ -20,7 +20,7 @@
   --shadow:       0 4px 18px rgba(15,23,42,0.08);
 }
 
-html, body, #root {
+html, body {
   height: 100%;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg);
@@ -94,7 +94,7 @@ html, body, #root {
   border-radius: 8px;
   color: var(--text-muted);
   font-size: 13px;
-  cursor: pointer;
+  cursor: default;
   transition: background 0.15s, color 0.15s;
   white-space: nowrap;
   overflow: hidden;
@@ -180,7 +180,6 @@ html, body, #root {
   padding: 0 0 8px;
 }
 
-/* custom scrollbar */
 .chat-area::-webkit-scrollbar { width: 5px; }
 .chat-area::-webkit-scrollbar-track { background: transparent; }
 .chat-area::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
@@ -193,7 +192,7 @@ html, body, #root {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  min-height: 100%;
   padding: 48px 24px;
   text-align: center;
 }
@@ -209,12 +208,6 @@ html, body, #root {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 10px;
-}
-.welcome-sub {
-  color: var(--text-muted);
-  font-size: 15px;
-  max-width: 440px;
-  margin-bottom: 40px;
 }
 .example-grid {
   display: grid;
@@ -235,7 +228,7 @@ html, body, #root {
   font-size: 13.5px;
   color: var(--text-muted);
   text-align: left;
-  cursor: default;
+  cursor: pointer;
   transition: border-color 0.2s, color 0.2s, background 0.2s;
 }
 .example-card:hover {
@@ -260,13 +253,9 @@ html, body, #root {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* User row: right-aligned */
 .user-row  { flex-direction: row-reverse; }
-
-/* AI row: left-aligned */
 .ai-row    { flex-direction: row; }
 
-/* ─── Avatars ─────────────────────────────────────────── */
 .avatar {
   width: 36px; height: 36px;
   border-radius: 50%;
@@ -278,7 +267,6 @@ html, body, #root {
 .ai-avatar   { background: var(--surface2); border: 1px solid var(--border); }
 .user-avatar { background: #312e81; border: 1px solid rgba(99,102,241,0.3); }
 
-/* ─── Bubbles ─────────────────────────────────────────── */
 .bubble {
   max-width: 70%;
   padding: 12px 16px;
@@ -288,7 +276,6 @@ html, body, #root {
   word-break: break-word;
 }
 
-/* User bubble — right side, dark grey */
 .user-bubble {
   background: var(--user-bg);
   border: 1px solid rgba(15,23,42,0.12);
@@ -296,7 +283,6 @@ html, body, #root {
   color: var(--text);
 }
 
-/* AI bubble — left side, transparent with faint border */
 .ai-bubble {
   background: var(--ai-bg);
   border: 1px solid var(--border);
@@ -306,7 +292,6 @@ html, body, #root {
 
 .bubble-text { white-space: pre-wrap; }
 
-/* ─── Sources ─────────────────────────────────────────── */
 .sources-block {
   margin-top: 12px;
   padding-top: 10px;
@@ -326,7 +311,6 @@ html, body, #root {
   padding: 3px 0;
 }
 
-/* ─── Typing indicator ────────────────────────────────── */
 .typing-indicator {
   display: flex;
   gap: 5px;
@@ -424,7 +408,6 @@ html, body, #root {
   font-size: 10.5px;
 }
 
-/* ─── Responsive ──────────────────────────────────────── */
 @media (max-width: 700px) {
   .sidebar { display: none; }
   .bubble { max-width: 88%; }
