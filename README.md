@@ -9,7 +9,7 @@ BIO stat AI is a local Retrieval-Augmented Generation (RAG) assistant for medica
 - Semantic retrieval using embeddings + Chroma vector database
 - Structured educational responses (Concept, Explanation, Key Points, Example, Final Summary)
 - Transparent source display with page number
-- CLI chat and ChatGPT-style Streamlit web UI
+- CLI chat and ChatGPT-style React web UI
 
 ## Tech Stack
 
@@ -37,8 +37,7 @@ ChatBot/
 ├─ ingest.py                 # Ingestion entrypoint
 ├─ chat.py                   # CLI chatbot
 ├─ app.py                    # Flask API server
-├─ frontend/                 # React web client
-├─ ui_app.py                 # Streamlit UI (optional legacy)
+├─ frontend/                 # React web client (HTML/CSS/JS via React)
 └─ requirements.txt
 ```
 
@@ -52,7 +51,7 @@ flowchart TD
     D --> E[(Chroma Vector DB<br/>documents + embeddings + metadata)]
 
     F[React Frontend<br/>localhost:3000] --> API[Flask API<br/>/api/chat]
-    U[User Question<br/>CLI / Streamlit] --> Q[Query Embedding<br/>Ollama embeddings]
+    U[User Question<br/>CLI] --> Q[Query Embedding<br/>Ollama embeddings]
     API --> Q
     Q --> R[Similarity Search<br/>Top-K retrieval from Chroma]
     R --> P[Prompt Builder<br/>strict structured teaching format]
@@ -141,14 +140,6 @@ Open:
 
 - Frontend: `http://localhost:3000`
 - Backend health check: `http://localhost:5000/api/health`
-
-## Alternative UI
-
-If you prefer Streamlit:
-
-```bash
-streamlit run ui_app.py
-```
 
 ## Configuration
 
