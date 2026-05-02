@@ -51,7 +51,7 @@ def retrieve(
     ollama: Ollama,
     vectorstore: VectorStore,
     embed_model: str = EMBED_MODEL,
-    top_k: int = 6,
+    top_k: int = 3,
 ) -> list[dict[str, Any]]:
     q_emb = ollama.embeddings(model=embed_model, prompt=question)
     res = vectorstore.query(query_embedding=q_emb, n_results=top_k)
@@ -73,7 +73,7 @@ def answer_question(
     vectorstore: VectorStore,
     chat_model: str = CHAT_MODEL,
     embed_model: str = EMBED_MODEL,
-    top_k: int = 6,
+    top_k: int = 3,
 ) -> tuple[str, list[dict[str, Any]]]:
     contexts = retrieve(
         question=question,
