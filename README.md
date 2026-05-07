@@ -116,6 +116,10 @@ pip install -r requirements.txt
 
 No `npm install` or `node_modules` is required for the UI.
 
+## Notes
+
+- **`.git/`**: This folder is created by Git and contains repository history and metadata. Do not delete it if you want to keep version control, and don’t include it when sharing a “source-only” zip.
+
 ## Run (Recommended)
 
 Terminal 1 — start Flask (serves HTML + `/api/chat`):

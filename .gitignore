@@ -4,8 +4,7 @@ __pycache__/
 
 chroma_db/
 
-# Local data files (keep folder, ignore heavy PDF contents)
-PDF Dataset/*.pdf
+# Local data files (PDFs are tracked with Git LFS)
 
 # OS/editor noise
 .DS_Store
