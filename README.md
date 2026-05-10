@@ -132,9 +132,26 @@ Then open `http://localhost:5000`.
 
 (If your vector DB is empty, run `python ingest.py` first.)
 
+## How each answer is built
+
+1. **Ollama (Llama)** writes the methodology from your topic.  
+2. **Gemini** scores that text against the same rubric; the **Accuracy score** line is appended at the **bottom** of the assistant message. The API key is only used on the server.
+
+---
+
 ## Configuration
 
-Environment variables:
+### Sharing the project (another laptop)
+
+1. Copy the whole project folder (or clone from Git).
+2. Create a virtualenv and run `pip install -r requirements.txt`.
+3. Start **Ollama** locally, pull the chat model (default **`llama3.2:latest`**), then run **`python app.py`**.
+
+A default Gemini API key is included in **`app.py`** and **`.env`** for the accuracy evaluator. Override with **`GEMINI_API_KEY`** if needed. After each reply, the UI shows **`Accuracy score`** at the bottom of the assistant message (from Gemini, not from Llama).
+
+---
+
+Environment variables (RAG / legacy defaults):
 
 - `PDF_DIR` (default: `PDF Dataset`)
 - `CHROMA_DIR` (default: `chroma_db`)

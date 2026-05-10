@@ -88,11 +88,66 @@
     );
   }
 
+  function stripLegacyAccuracy(answer) {
+    if (!answer) return "";
+    return answer.replace(/\n\n---\n\n\*\*Accuracy score:\*\*\s*[\s\S]*$/i, "").trim();
+  }
+
+  function parseMarkdownRaw(text) {
+    if (window.marked) {
+      return marked.parse(text || "");
+    }
+    var t = escapeHtml(text || "");
+    t = t.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+    t = t.replace(/\n/g, "<br>");
+    return t;
+  }
+
   function bubbleHtml(msg) {
+    if (msg.role === "user") {
+      var userHtml = escapeHtml(msg.content || "").replace(/\n/g, "<br>");
+      var uInner = '<div class="bubble-text">' + userHtml + "</div>";
+      if (msg.sources && msg.sources.length) {
+        uInner += '<div class="sources-block"><span class="sources-label">📚 Source</span>';
+        msg.sources.forEach(function (s) {
+          uInner += '<div class="source-item">' + escapeHtml(s) + "</div>";
+        });
+        uInner += "</div>";
+      }
+      return uInner;
+    }
+
     if (msg.loading) {
       return '<div class="typing-indicator"><span></span><span></span><span></span></div>';
     }
-    let inner = '<div class="bubble-text">' + escapeHtml(msg.content || "") + "</div>";
+
+    if (msg.llamaOutput === undefined && msg.content) {
+      return '<div class="bubble-text">' + parseMarkdownRaw(msg.content) + "</div>";
+    }
+
+    var llamaText = msg.llamaOutput != null ? msg.llamaOutput : "";
+    var inner = '<div class="bubble-text">' + parseMarkdownRaw(llamaText) + "</div>";
+
+    var ev = msg.evaluation || {};
+    if (msg.accuracy || ev.status) {
+      if (msg.accuracy) {
+        inner +=
+          '<div class="eval-block eval-ok">' +
+          '<div class="eval-line">' +
+          '<span class="eval-label">Model accuracy :</span> ' +
+          '<span class="eval-score-inline">' + escapeHtml(String(msg.accuracy).trim()) + "</span>" +
+          "</div>" +
+          "</div>";
+      } else {
+        var reason = ev.detail || "Model accuracy unavailable.";
+        inner +=
+          '<div class="eval-block eval-warn">' +
+          '<div class="eval-title">Model accuracy unavailable</div>' +
+          '<div class="eval-reason">' + escapeHtml(reason) + "</div>" +
+          "</div>";
+      }
+    }
+
     if (msg.sources && msg.sources.length) {
       inner += '<div class="sources-block"><span class="sources-label">📚 Source</span>';
       msg.sources.forEach(function (s) {
@@ -193,10 +248,16 @@
             sources: [],
           };
         } else {
+          var lo =
+            typeof data.llama_output === "string"
+              ? data.llama_output
+              : stripLegacyAccuracy(data.answer || "");
           messages[idx] = {
             id: asstId,
             role: "assistant",
-            content: data.answer || "",
+            llamaOutput: lo,
+            accuracy: data.accuracy || "",
+            evaluation: data.evaluation || null,
             sources: data.sources || [],
           };
         }
