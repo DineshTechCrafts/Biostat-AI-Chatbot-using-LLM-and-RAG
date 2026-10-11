@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 
 chroma_db/
+.env
 
 # Local data files (PDFs are tracked with Git LFS)
 

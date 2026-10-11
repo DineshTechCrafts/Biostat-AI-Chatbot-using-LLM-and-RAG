@@ -43,7 +43,7 @@ GEMINI_FALLBACK_MODELS = (
     "gemini-flash-latest",
 )
 
-GEMINI_API_KEY_DEFAULT = "AIzaSyAumEAEjnWSY8gReb4yQzMMpKiRht7ha08"
+GEMINI_API_KEY_DEFAULT = ""
 
 SYSTEM_PROMPT = """You are an experienced optometry researcher and biostatistician with expertise in ocular surface disease, epidemiology, and clinical research methods.
 Task:

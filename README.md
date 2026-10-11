@@ -112,7 +112,10 @@ python -m venv .venv
 .venv\Scripts\activate
 pip install --upgrade pip
 pip install -r requirements.txt
+cp .env.example .env
 ```
+
+Configure your `GEMINI_API_KEY` in `.env` to enable the Gemini accuracy evaluator.
 
 No `npm install` or `node_modules` is required for the UI.
 
@@ -145,9 +148,10 @@ Then open `http://localhost:5000`.
 
 1. Copy the whole project folder (or clone from Git).
 2. Create a virtualenv and run `pip install -r requirements.txt`.
-3. Start **Ollama** locally, pull the chat model (default **`llama3.2:latest`**), then run **`python app.py`**.
+3. Set your `GEMINI_API_KEY` in `.env` (copied from `.env.example`).
+4. Start **Ollama** locally, pull the chat model (default **`llama3.2:latest`**), then run **`python app.py`**.
 
-A default Gemini API key is included in **`app.py`** and **`.env`** for the accuracy evaluator. Override with **`GEMINI_API_KEY`** if needed. After each reply, the UI shows **`Accuracy score`** at the bottom of the assistant message (from Gemini, not from Llama).
+Set your own Gemini API key via the **`GEMINI_API_KEY`** environment variable or in **`.env`** for the accuracy evaluator. After each reply, the UI shows **`Accuracy score`** at the bottom of the assistant message (from Gemini, not from Llama).
 
 ---
 
